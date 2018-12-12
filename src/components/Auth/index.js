@@ -26,12 +26,13 @@ class Auth extends React.Component {
     super(props)
 
     this.state = {
-      name: ''
+      name: '',
+      title: ''
     }
   }
 
   componentDidMount() {
-    axios.get('/data')
+    axios.get('/api/data')
       .then(res => {
         console.log(res, 'res')
       })
