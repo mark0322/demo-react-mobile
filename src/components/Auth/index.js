@@ -1,11 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { login, logout } from '../../redux/Auth.redux'
-import axios from 'axios'
+import { login, logout, getUserData } from '../../redux/Auth.redux'
 
 const mapStateToProps = state => ({
     isAuth: state.auth.isAuth,
-    user: state.auth.user
+    user: state.auth.user,
+    title: state.auth.title,
+    age: state.auth.age
 })
 
 
@@ -16,7 +17,8 @@ const mapDispatchToProps = dispatch => {
           dispatch(login(name))
         }
       },
-      logout: dispatch(logout())
+      logout: () => dispatch(logout()),
+      getUserData: () => getUserData(dispatch)
   }
 }
 
@@ -32,10 +34,7 @@ class Auth extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('/api/data')
-      .then(res => {
-        console.log(res, 'res')
-      })
+    this.props.getUserData()
   }
 
   handleChangeName = (e) => {
@@ -48,9 +47,10 @@ class Auth extends React.Component {
   }
 
   render() {
+    const props = this.props
     return (
       <div>
-        <h1>请输入用户名</h1>
+        <h1>{`user: ${props.user}; age ${props.age}`}</h1>
         <input type="text" onChange={this.handleChangeName} value={this.state.name}/>
         <button type="submit" onClick={this.sumbit}>登录</button>
       </div>

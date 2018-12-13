@@ -12,7 +12,8 @@ routerApi
         {
           id: 1,
           title: "Alice's Adventures in Wonderland",
-          author: "Charles Lutwidge Dodgson"
+          author: "Charles Lutwidge Dodgson",
+          age: 37
         }
       ]
     )

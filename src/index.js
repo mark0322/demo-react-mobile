@@ -8,6 +8,7 @@ import reducers from './redux/reducers'
 import thunk from 'redux-thunk'
 import Auth from './components/Auth'
 import Dashboard from './components/Dashboard'
+import 'antd-mobile/dist/antd-mobile.css'
 
 const redexDevtools = window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : function() {}
 const store = createStore(reducers, compose(applyMiddleware(thunk), redexDevtools))
