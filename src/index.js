@@ -1,31 +1,34 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import { Provider } from 'react-redux' 
 import { createStore, applyMiddleware, compose } from 'redux'
-import reducers from './redux/reducers'
+import reducer from './redux'
 import thunk from 'redux-thunk'
-import Auth from './components/Auth'
-import Dashboard from './components/Dashboard'
-import 'antd-mobile/dist/antd-mobile.css'
+import './config' // axios
 
-const redexDevtools = window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : function() {}
-const store = createStore(reducers, compose(applyMiddleware(thunk), redexDevtools))
-store.subscribe(() => {
-  console.log(store.getState())
-})
+// containers 
+import Login from './container/login/login'
+import Register from './container/register/register'
+import AuthRoute from './component/authroute'
 
+const store = createStore(reducer, compose(
+  applyMiddleware(thunk), 
+  window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : function() {}
+))
+
+function Boss(props) {
+  return <h2>BOSS 页面</h2>
+}
 
 ReactDOM.render(
   <Provider store={store}>
     <Router>
       <div>
-        <Switch>
-          <Route path='/login' component={Auth}></Route>
-          <Route path='/dashboard' component={Dashboard}></Route>
-          <Redirect to='/dashboard'></Redirect>
-        </Switch>
+        <AuthRoute sex="so sexy..."/> {/* 权限验证 & 自动跳转 */}
+        <Route path='/boss' component={Boss}></Route>
+        <Route path='/login' component={Login}></Route>
+        <Route path='/register' component={Register}></Route>
       </div>
     </Router>
   </Provider>,
