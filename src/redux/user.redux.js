@@ -1,10 +1,12 @@
 import axios from "axios"
 import { Toast } from 'antd-mobile'
 import { getRedirectPath } from '../modules/util'
+
 // constance
 const  REGISTER_SUCCESS = 'REGISTER_SUCCESS'
 const ERROR_MSG = 'ERROR_MSG'
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
+const LOAD_DATA = 'LOAD_DATA'
 
 
 // action creator
@@ -17,6 +19,8 @@ const loginSuccess = data => ({
   type: LOGIN_SUCCESS,
   payload: data
 })
+export const lodaData = userinfo => ({ type: LOAD_DATA, payload: userinfo })
+
 
 // state
 const initState = {
@@ -53,10 +57,17 @@ export function user(state = initState, action) {
         redirectTo: getRedirectPath(action.payload),
         ...action.payload
       }
+    case LOAD_DATA:
+      return {
+        ...state,
+        isAuth: true,
+        ...action.payload
+      }
     default:
       return state
   }
 }
+
 
 // dispatch
 export function register({user, pwd, repeatPwd, type}) {

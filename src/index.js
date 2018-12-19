@@ -25,7 +25,7 @@ ReactDOM.render(
   <Provider store={store}>
     <Router>
       <div>
-        <AuthRoute sex="so sexy..."/> {/* 权限验证 & 自动跳转 */}
+        <AuthRoute /> {/* 权限验证 & 自动跳转 */}
         <Route path='/boss' component={Boss}></Route>
         <Route path='/login' component={Login}></Route>
         <Route path='/register' component={Register}></Route>
