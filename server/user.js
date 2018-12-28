@@ -55,9 +55,29 @@ Router.get('/info', (req, res) => {
   }
   User.findOne({_id: userid}, _filterRes, (err, doc) => {
     if (err) return res.json({code: 1, 'msg': '后台出错了'})
+
     if (doc) {
       res.json({code: 0, data: doc})
     }
+  })
+})
+
+Router.post('/update', (req, res) => {
+  const { userid } = req.cookies
+  if (!userid) return res.json({code: 1})
+
+  const body = req.body
+
+  User.findByIdAndUpdate(userid, body, (err,doc) => {
+    const data = {
+      user: doc.user,
+      type: doc.type,
+      ...body
+    }
+    return res.json({
+      code: 0,
+      data
+    })
   })
 })
 

@@ -3,64 +3,46 @@ import { Toast } from 'antd-mobile'
 import { getRedirectPath } from '../modules/util'
 
 // constance
-const  REGISTER_SUCCESS = 'REGISTER_SUCCESS'
 const ERROR_MSG = 'ERROR_MSG'
-const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 const LOAD_DATA = 'LOAD_DATA'
+const AUTH_SUCCESS = 'AUTH_SUCCESS'
 
 
-// action creator
-const errorMsg = msg => ({msg, type: ERROR_MSG})
-const registerSuccess = data => ({
-  type: LOGIN_SUCCESS,
-  payload: data
-})
-const loginSuccess = data => ({
-  type: LOGIN_SUCCESS,
-  payload: data
-})
-export const lodaData = userinfo => ({ type: LOAD_DATA, payload: userinfo })
-
-
-// state
 const initState = {
   redirectTo: '', // 注册成功后，跳转的地址
   msg: '',
-  isAuth: false,
   user: '',
   pwd: '',
   type: ''
 }
 
+
+// action creator
+const errorMsg = msg => ({ msg, type: ERROR_MSG })
+const authSuccess = data => ({ type: AUTH_SUCCESS, payload: data })
+
+// 同步的 dispatch
+export const lodaData = userinfo => ({ type: LOAD_DATA, payload: userinfo })
+
+
 // reducer
 export function user(state = initState, action) {
   switch(action.type) {
-    case REGISTER_SUCCESS:
+    case AUTH_SUCCESS:
       return {
         ...state,
         msg: '',
-        isAuth: true,
         redirectTo: getRedirectPath(action.payload),
         ...action.payload
       }
     case ERROR_MSG:
       return {
         ...state,
-        isAuth: false,
         msg: action.msg,
-      }
-    case LOGIN_SUCCESS:
-      return {
-        ...state,
-        msg: '',
-        isAuth: true,
-        redirectTo: getRedirectPath(action.payload),
-        ...action.payload
       }
     case LOAD_DATA:
       return {
         ...state,
-        isAuth: true,
         ...action.payload
       }
     default:
@@ -69,7 +51,7 @@ export function user(state = initState, action) {
 }
 
 
-// dispatch
+// 异步的 dispatch
 export function register({user, pwd, repeatPwd, type}) {
   if (!user || !pwd ) {
     return errorMsg('用户名或密码未输入')
@@ -81,11 +63,11 @@ export function register({user, pwd, repeatPwd, type}) {
   return dispatch => {
     axios.post('/user/register', {user, pwd, type})
       .then(res => {
-        if (res.status == 200 && res.data.code == 0) {
-          dispatch(registerSuccess({user, pwd, type}))
+        if (res.status === 200 && res.data.code === 0) {
+          dispatch(authSuccess({user, pwd, type}))
           Toast.success('注册成功～', 1)
         } else {
-          Toast.fail(res.data.msg, 1);
+          Toast.fail(res.data.msg, 1)
           dispatch(errorMsg(res.data.msg))
         }
       })
@@ -99,17 +81,31 @@ export function login({user, pwd}) {
   return dispatch => {
     axios.post('/user/login', {user, pwd})
       .then(res => {
-        if (res.status == 200 && res.data.code == 0) {
-          dispatch(loginSuccess(res.data.data))
+        if (res.status === 200 && res.data.code === 0) {
+          dispatch(authSuccess(res.data.data))
           Toast.success('登录成功～', 1)
         } else {
-          Toast.fail(res.data.msg, 1);
+          Toast.fail(res.data.msg, 1)
           dispatch(errorMsg(res.data.msg))
         }
       })
       .catch(err => {
         dispatch(errorMsg('登陆失败！'))
-        Toast.fail('登陆失败！', 1);
+        Toast.fail('登陆失败！', 1)
+      })
+  }
+}
+
+
+export function update(data) {
+  return dispatch => {
+    axios.post('/user/update', data)
+      .then(res => {
+        if (res.status === 200 && res.data.code === 0) {
+          dispatch(authSuccess(res.data.data))
+        } else {
+          dispatch(errorMsg(res.data.msg))
+        }
       })
   }
 }

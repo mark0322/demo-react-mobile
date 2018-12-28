@@ -11,6 +11,7 @@ import './config' // axios
 import Login from './container/login/login'
 import Register from './container/register/register'
 import AuthRoute from './component/authroute'
+import BossInfo from './container/bossinfo'
 
 const store = createStore(reducer, compose(
   applyMiddleware(thunk), 
@@ -26,9 +27,12 @@ ReactDOM.render(
     <Router>
       <div>
         <AuthRoute /> {/* 权限验证 & 自动跳转 */}
-        <Route path='/boss' component={Boss}></Route>
-        <Route path='/login' component={Login}></Route>
-        <Route path='/register' component={Register}></Route>
+        <Switch>
+          <Route path='/bossinfo' component={BossInfo}></Route>
+          {/* <Route path='/boss' component={Boss}></Route> */}
+          <Route path='/login' component={Login}></Route>
+          <Route path='/register' component={Register}></Route>
+        </Switch>
       </div>
     </Router>
   </Provider>,

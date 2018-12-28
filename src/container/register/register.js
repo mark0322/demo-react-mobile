@@ -63,7 +63,7 @@ class Register extends React.Component {
           <WhiteSpace />
 
           <RadioItem 
-            checked={this.state.type === 'genuis'} 
+            checked={this.state.type === 'genuis'}
             onClick={() => this.handleChange('type')('genuis')}
           >牛人</RadioItem>
           <RadioItem 
