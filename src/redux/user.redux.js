@@ -12,7 +12,6 @@ const initState = {
   redirectTo: '', // 注册成功后，跳转的地址
   msg: '',
   user: '',
-  pwd: '',
   type: ''
 }
 
@@ -29,20 +28,17 @@ export const lodaData = userinfo => ({ type: LOAD_DATA, payload: userinfo })
 export function user(state = initState, action) {
   switch(action.type) {
     case AUTH_SUCCESS:
-      return {
-        ...state,
+      return {...state,
         msg: '',
         redirectTo: getRedirectPath(action.payload),
         ...action.payload
       }
     case ERROR_MSG:
-      return {
-        ...state,
+      return {...state,
         msg: action.msg,
       }
     case LOAD_DATA:
-      return {
-        ...state,
+      return {...state,
         ...action.payload
       }
     default:
@@ -64,7 +60,8 @@ export function register({user, pwd, repeatPwd, type}) {
     axios.post('/user/register', {user, pwd, type})
       .then(res => {
         if (res.status === 200 && res.data.code === 0) {
-          dispatch(authSuccess({user, pwd, type}))
+          console.log(user, type, 'register...')
+          dispatch(authSuccess({user, type}))
           Toast.success('注册成功～', 1)
         } else {
           Toast.fail(res.data.msg, 1)
@@ -102,6 +99,7 @@ export function update(data) {
     axios.post('/user/update', data)
       .then(res => {
         if (res.status === 200 && res.data.code === 0) {
+          console.log('res - update:', res)
           dispatch(authSuccess(res.data.data))
         } else {
           dispatch(errorMsg(res.data.msg))
