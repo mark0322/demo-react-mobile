@@ -6,6 +6,7 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import reducer from './redux'
 import thunk from 'redux-thunk'
 import './config' // axios
+import './index.css'
 
 // containers 
 import Login from './container/login/login'
@@ -13,16 +14,15 @@ import Register from './container/register/register'
 import AuthRoute from './component/authroute'
 import BossInfo from './container/bossinfo'
 import GeniusInfo from './container/geniusinfo'
+import Dashboard from './component/dashboard'
 
 const store = createStore(reducer, compose(
   applyMiddleware(thunk), 
   window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : function() {}
 ))
 
-function Boss(props) {
-  return <h2>BOSS 页面</h2>
-}
 
+// TODO 页面： boos genius me msg
 ReactDOM.render(
   <Provider store={store}>
     <Router>
@@ -33,6 +33,7 @@ ReactDOM.render(
           <Route path='/geniusinfo' component={GeniusInfo}></Route>
           <Route path='/login' component={Login}></Route>
           <Route path='/register' component={Register}></Route>
+          <Route component={Dashboard}></Route>
         </Switch>
       </div>
     </Router>

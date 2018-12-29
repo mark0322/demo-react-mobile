@@ -33,7 +33,7 @@ class AuthRoute extends React.Component {
       .then(res => {
         if (res.status === 200) {
           if (res.data.code === 0) {
-            console.log('用户已登录', res)
+            // console.log('用户已登录', res)
 
             // 将返回的用户信息，存储到 redux 中
             this.props.lodaData(res.data.data)
