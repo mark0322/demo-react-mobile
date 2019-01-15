@@ -3,8 +3,10 @@ import PropTypes from 'prop-types'
 import { TabBar } from 'antd-mobile'
 import { withRouter } from 'react-router-dom'
 
-@withRouter 
+// switch route on the bottom bar
+@withRouter
 class NavLinkBar extends React.Component {
+  static propTypes = { data: PropTypes.array.isRequired }
 
   render() {
     const navList = this.props.data.filter(v => !v.hide)
@@ -26,8 +28,5 @@ class NavLinkBar extends React.Component {
   }
 }
 
-NavLinkBar.propTypes = {
-  data: PropTypes.array.isRequired
-}
 
 export default NavLinkBar

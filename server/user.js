@@ -8,8 +8,10 @@ const _filterRes = {'pwd': 0, '__v': 0} // 删除 res.data 中的 密码
 
 Router.get('/list', (req, res) => {
   // User.remove({}, (err, doc) => {}) // 清库
-  User.find({}, function(err, doc) {
-    return res.json(doc)
+  const { type } = req.query
+
+  User.find({type}, function(err, doc) {
+    return res.json({code: 0, data: doc})
   })
 })
 

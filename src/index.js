@@ -14,7 +14,7 @@ import Register from './container/register/register'
 import AuthRoute from './component/authroute'
 import BossInfo from './container/bossinfo'
 import GeniusInfo from './container/geniusinfo'
-import Dashboard from './component/dashboard'
+import Dashboard from './component/dashboard.js'
 
 const store = createStore(reducer, compose(
   applyMiddleware(thunk), 
@@ -27,13 +27,15 @@ ReactDOM.render(
   <Provider store={store}>
     <Router>
       <div>
-        <AuthRoute /> {/* 权限验证 & 自动跳转 */}
+        <AuthRoute /> {/* 权限验证 & 自动跳转(任何 url 都访问该组件) */}
         <Switch>
           <Route path='/bossinfo' component={BossInfo}></Route>
           <Route path='/geniusinfo' component={GeniusInfo}></Route>
           <Route path='/login' component={Login}></Route>
           <Route path='/register' component={Register}></Route>
-          <Route component={Dashboard}></Route>
+
+          {/* 登录成功后的所有页面都归 Dashboard 管理 */}
+          <Route component={Dashboard}></Route> 
         </Switch>
       </div>
     </Router>

@@ -17,7 +17,7 @@ class Register extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      type: 'genuis',
+      type: 'genius',
       user: '',
       pwd: '',
       repeatPwd: ''
@@ -63,8 +63,8 @@ class Register extends React.Component {
           <WhiteSpace />
 
           <RadioItem 
-            checked={this.state.type === 'genuis'}
-            onClick={() => this.handleChange('type')('genuis')}
+            checked={this.state.type === 'genius'}
+            onClick={() => this.handleChange('type')('genius')}
           >牛人</RadioItem>
           <RadioItem 
             checked={this.state.type === 'boss'}

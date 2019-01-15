@@ -1,19 +1,20 @@
 import React from 'react'
+import { Route, Switch } from 'react-router-dom'
 import { get } from 'lodash'
 import { connect } from 'react-redux'
 import { NavBar } from 'antd-mobile'
-import NavLinkBar from '../navlink'
+import NavLinkBar from './navlink'
+import Boss from './boss.js'
+import Genius from './genius.js'
+import User from './user.js'
 
-const Boss = () => <h1>BOSS首页</h1>
-const Genius = () => <h1>Genius首页</h1>
 const Msg = () => <h1>消息列表</h1>
-const User = () => <h1>个人中心</h1>
+
 
 @connect(
   state => state,
 )
 class Dashboard extends React.Component {
-
 
   render() {
     const user = this.props.user
@@ -26,7 +27,7 @@ class Dashboard extends React.Component {
         icon: 'boss',
         title: '牛人列表',
         component: Boss,
-        hide: user.type === 'genuis'
+        hide: user.type === 'genius'
       },
       {
         path: '/genius',
@@ -52,15 +53,18 @@ class Dashboard extends React.Component {
       }
     ]
     const currentObj = navList.find(v => v.path === pathname)
-    const CurrentComp = get(currentObj, 'component')
     return (
       <div>
         <NavBar className='fixed-header' mode='dark'>{get(currentObj, 'title')}</NavBar>
-        <CurrentComp />
-        <h2>content</h2>
-
-        <NavLinkBar data={navList}></NavLinkBar>
-        <h4>footer...</h4>
+        <div style={{marginTop: '45px'}}>
+          {/* <CurrentComp /> */}
+          <Switch>
+            {navList.map(item => (
+              <Route key={item.path} path={item.path} component={item.component}/>
+            ))}
+          </Switch>
+          <NavLinkBar data={navList}></NavLinkBar>
+        </div>
       </div>
     )
   }

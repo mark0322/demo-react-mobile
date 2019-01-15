@@ -15,6 +15,7 @@ code {
   position: fixed;
   bottom: 0;
   width: 100%;
+  height: auto !important;
 }
 
 .fixed-header.am-navbar {
